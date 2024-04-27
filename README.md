@@ -10,4 +10,12 @@
 
 🕹️ Finally, we have the game board itself. This will be a 2D plane that the Snake moves along and that the Apple spawns in.
 
+--
+
+To run it `cargo run`.
+
+--
+
 _More info is coming soon. I'm working on a detailed article to explain how I built it_
+
+Update: The 1st part of the article is ready, you can read it [here](https://eleftheriabatsou.hashnode.dev/tutorial-snake-game-in-rust-part-12).
