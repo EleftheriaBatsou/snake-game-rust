@@ -19,3 +19,6 @@ To run it `cargo run`.
 _More info is coming soon. I'm working on a detailed article to explain how I built it_
 
 Update: The 1st part of the article is ready, you can read it [here](https://eleftheriabatsou.hashnode.dev/tutorial-snake-game-in-rust-part-12).
+
+
+[Snake Game on twitter](https://twitter.com/BatsouElef/status/1784178606752645130)
