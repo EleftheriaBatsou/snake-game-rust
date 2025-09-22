@@ -51,11 +51,11 @@ impl Game {
             Key::Down => Some(Direction::Down),
             Key::Left => Some(Direction::Left),
             Key::Right => Some(Direction::Right),
-            _ => Some(self.snake.head_direction()),
+            _ => None,
         };
 
-        if let Some(dir) = dir {
-            if dir == self.snake.head_direction().opposite() {
+        if let Some(d) = dir {
+            if d == self.snake.head_direction().opposite() {
                 return;
             }
         }
@@ -141,6 +141,16 @@ impl Game {
         }
         self.waiting_time = 0.0;
     }
+
+    fn restart(&mut self) {
+        self.snake = Snake::new(2, 2);
+        self.waiting_time = 0.0;
+        self.food_exists = true;
+        self.food_x = 6;
+        self.food_y = 4;
+        self.game_over = false;
+    }
+}
 
     fn restart(&mut self) {
         self.snake = Snake::new(2, 2);
