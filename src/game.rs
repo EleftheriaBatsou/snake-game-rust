@@ -1,5 +1,5 @@
 use piston_window::types::Color;
-use piston_window::*;
+use piston_window::{Context, G2d, Key};
 
 use rand::{thread_rng, Rng};
 
@@ -141,6 +141,16 @@ impl Game {
         }
         self.waiting_time = 0.0;
     }
+
+    fn restart(&mut self) {
+        self.snake = Snake::new(2, 2);
+        self.waiting_time = 0.0;
+        self.food_exists = true;
+        self.food_x = 6;
+        self.food_y = 4;
+        self.game_over = false;
+    }
+}
 
     fn restart(&mut self) {
         self.snake = Snake::new(2, 2);
