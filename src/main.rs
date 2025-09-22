@@ -1,6 +1,8 @@
+/// Entry point for the Snake game.
+mod config;
 mod draw;
-mod snake;
 mod game;
+mod snake;
 
 use piston_window::{clear, Button, PistonWindow, WindowSettings};
 use piston_window::types::Color;
@@ -13,10 +15,11 @@ const BACK_COLOR: Color = [0.5, 0.5, 0.5, 1.0];
 fn main() {
     let (width, height) = (30, 30);
 
-    let mut window: PistonWindow = WindowSettings::new("Snake", [to_coord_u32(width), to_coord_u32(height)])
-        .exit_on_esc(true)
-        .build()
-        .unwrap();
+    let mut window: PistonWindow =
+        WindowSettings::new("Snake", [to_coord_u32(width), to_coord_u32(height)])
+            .exit_on_esc(true)
+            .build()
+            .unwrap();
 
     let mut game = Game::new(width, height);
 
@@ -33,7 +36,5 @@ fn main() {
         event.update(|arg| {
             game.update(arg.dt);
         });
-    }
-});
     }
 }

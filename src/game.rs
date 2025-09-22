@@ -1,17 +1,13 @@
-use piston_window::types::Color;
+/// Game state and logic: input handling, updates, and rendering.
 use piston_window::{Context, G2d, Key};
-
 use rand::{thread_rng, Rng};
 
+use crate::config::{
+    BORDER_COLOR, FOOD_COLOR, GAMEOVER_COLOR, INITIAL_FOOD_X, INITIAL_FOOD_Y, MOVING_PERIOD,
+    RESTART_TIME, START_SNAKE_X, START_SNAKE_Y,
+};
 use crate::draw::{draw_block, draw_rectangle};
 use crate::snake::{Direction, Snake};
-
-const FOOD_COLOR: Color = [0.80, 0.00, 0.00, 1.0];
-const BORDER_COLOR: Color = [0.00, 0.00, 0.00, 1.0];
-const GAMEOVER_COLOR: Color = [0.90, 0.00, 0.00, 0.5];
-
-const MOVING_PERIOD: f64 = 0.1;
-const RESTART_TIME: f64 = 1.0;
 
 pub struct Game {
     snake: Snake,
@@ -25,23 +21,34 @@ pub struct Game {
 
     game_over: bool,
     waiting_time: f64,
+
+    paused: bool,
+    score: u32,
 }
 
 impl Game {
     pub fn new(width: i32, height: i32) -> Game {
         Game {
-            snake: Snake::new(2, 2),
+            snake: Snake::new(START_SNAKE_X, START_SNAKE_Y),
             waiting_time: 0.0,
             food_exists: true,
-            food_x: 6,
-            food_y: 4,
+            food_x: INITIAL_FOOD_X,
+            food_y: INITIAL_FOOD_Y,
             width,
             height,
             game_over: false,
+            paused: false,
+            score: 0,
         }
     }
 
     pub fn key_pressed(&mut self, key: Key) {
+        // Allow toggling pause even when game over; restart logic handles reset separately.
+        if key == Key::Space {
+            self.paused = !self.paused;
+            return;
+        }
+
         if self.game_over {
             return;
         }
@@ -60,7 +67,9 @@ impl Game {
             }
         }
 
-        self.update_snake(dir);
+        if !self.paused {
+            self.update_snake(dir);
+        }
     }
 
     pub fn draw(&self, con: &Context, g: &mut G2d) {
@@ -90,6 +99,10 @@ impl Game {
             return;
         }
 
+        if self.paused {
+            return;
+        }
+
         if !self.food_exists {
             self.add_food();
         }
@@ -104,6 +117,8 @@ impl Game {
         if self.food_exists && self.food_x == head_x && self.food_y == head_y {
             self.food_exists = false;
             self.snake.restore_tail();
+            self.score += 1;
+            println!("Score: {}", self.score);
         }
     }
 
@@ -143,22 +158,14 @@ impl Game {
     }
 
     fn restart(&mut self) {
-        self.snake = Snake::new(2, 2);
+        self.snake = Snake::new(START_SNAKE_X, START_SNAKE_Y);
         self.waiting_time = 0.0;
         self.food_exists = true;
-        self.food_x = 6;
-        self.food_y = 4;
+        self.food_x = INITIAL_FOOD_X;
+        self.food_y = INITIAL_FOOD_Y;
         self.game_over = false;
-    }
-}
-
-    fn restart(&mut self) {
-        self.snake = Snake::new(2, 2);
-        self.waiting_time = 0.0;
-        self.food_exists = true;
-        self.food_x = 6;
-        self.food_y = 4;
-        self.game_over = false;
+        self.paused = false;
+        self.score = 0;
     }
 }
 

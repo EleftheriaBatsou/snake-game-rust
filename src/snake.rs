@@ -1,3 +1,4 @@
+/// Snake entity and movement logic.
 use std::collections::LinkedList;
 use piston_window::{Context, G2d};
 use piston_window::types::Color;
@@ -117,6 +118,36 @@ impl Snake {
             .iter()
             .take(len - 1)
             .any(|block| block.x == x && block.y == y)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{Direction, Snake};
+
+    #[test]
+    fn next_head_default_direction_is_right() {
+        let snake = Snake::new(2, 2);
+        let (nx, ny) = snake.next_head(None);
+        assert_eq!((nx, ny), (3, 2));
+    }
+
+    #[test]
+    fn overlap_tail_excludes_current_tail() {
+        let snake = Snake::new(2, 2);
+        // Initial tail is at the starting x,y (2,2)
+        assert_eq!(snake.overlap_tail(2, 2), false);
+        // But overlapping one of the body blocks returns true
+        assert!(snake.overlap_tail(3, 2));
+        assert!(snake.overlap_tail(4, 2));
+    }
+
+    #[test]
+    fn move_forward_updates_head() {
+        let mut snake = Snake::new(2, 2);
+        snake.move_forward(Some(Direction::Down));
+        let (hx, hy) = snake.head_position();
+        assert_eq!((hx, hy), (4, 3)); // moved from (4,2) to (4,3)
     }
 }
 
