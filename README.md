@@ -12,7 +12,20 @@
 
 --
 
-To run it `cargo run`.
+Run the game:
+
+- `cargo run`
+
+Controls:
+
+- Arrow keys: Move the snake
+- Space: Pause / Resume
+- Esc: Exit
+
+Notes:
+
+- Your score increases when you eat food and is printed to the console.
+- The game auto-restarts after a short delay when you lose.
 
 --
 
