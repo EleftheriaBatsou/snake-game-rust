@@ -1,0 +1,44 @@
+:root{
+  --bg:#808080;
+  --wall:#303030;
+  --food:#e74c3c;
+  --snake:#2ecc71;
+  --gameover:rgba(192,57,43,0.35);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;
+  background:var(--bg);
+  color:#111;
+  display:grid;
+  place-items:center;
+  min-height:100vh;
+}
+.wrap{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:center;
+}
+h1{
+  margin:8px 0 0;
+  font-weight:600;
+  color:#111;
+}
+canvas{
+  border:4px solid var(--wall);
+  background:#fafafa;
+  box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+.hud{
+  display:flex;
+  gap:24px;
+  align-items:center;
+}
+.controls{
+  display:flex;
+  gap:16px;
+  font-size:14px;
+  opacity:.8;
+}
